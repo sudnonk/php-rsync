@@ -23,7 +23,6 @@ class rsync
     public function __construct()
     {
         self::check_rsync();
-
     }
 
     /**
@@ -89,6 +88,8 @@ class rsync
      */
     public function run()
     {
+        $this->debug();
+
         $delete = $this->is_delete ? "--delete" : "";
         $command = "rsync -" . $this->options . $delete . " " . $this->from . " " . $this->to;
 
@@ -120,5 +121,12 @@ class rsync
 
         exec($command, $output, $return_var);
         return array('output' => $output, 'return_var' => $return_var);
+    }
+
+    private function debug(){
+        var_dump($this->options);
+        var_dump($this->is_delete);
+        var_dump($this->from);
+        var_dump($this->to);
     }
 }
