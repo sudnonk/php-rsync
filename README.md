@@ -1,6 +1,10 @@
 # php-rsync
 phpでrsyncを便利に使えるようにするクラスです。
 
-## 環境
+## environment
 - PHP 7.1.10以上
 - Bash
+
+## usage
+see `sample.php`
+
