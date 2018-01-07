@@ -62,6 +62,10 @@ class rsync
         $this->from = $from;
     }
 
+    public function to(string $to){
+        $this->to = $to;
+    }
+
     /**
      * オプションを設定する
      *
@@ -80,6 +84,9 @@ class rsync
         $this->is_delete = true;
     }
 
+    /**
+     * rsyncコマンドを実行する
+     */
     public function run()
     {
         $delete = $this->is_delete ? "--delete" : "";
@@ -91,6 +98,9 @@ class rsync
         }
     }
 
+    /**
+     * rsyncコマンドをdry-runで実行する
+     */
     public function dry_run()
     {
         $this->set_option("n");
