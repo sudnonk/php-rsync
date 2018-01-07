@@ -22,6 +22,7 @@ class rsync
      */
     public function __construct()
     {
+        clearstatcache();
         self::check_rsync();
     }
 
