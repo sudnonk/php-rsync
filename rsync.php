@@ -43,6 +43,7 @@ class rsync
      * パスの末尾に強制で/を付ける
      *
      * @param string $from
+     * @throws RuntimeException ディレクトリが見つからなかった場合
      */
     public function from_dir_itself(string $from)
     {
@@ -60,6 +61,7 @@ class rsync
      * パスの末尾の/を強制で取る
      *
      * @param string $from
+     * @throws RuntimeException ディレクトリが見つからなかった場合
      */
     public function from_file(string $from)
     {
@@ -72,6 +74,12 @@ class rsync
         }
     }
 
+    /**
+     * 宛先を指定する
+     *
+     * @param string $to
+     * @throws RuntimeException 宛先フォルダの生成に失敗した場合
+     */
     public function to(string $to)
     {
         if (!file_exists($to) && !is_dir($to)) {
@@ -104,6 +112,8 @@ class rsync
 
     /**
      * rsyncコマンドを実行する
+     *
+     * @throws RuntimeException rsyncコマンドに失敗した場合
      */
     public function run()
     {
@@ -117,6 +127,8 @@ class rsync
 
     /**
      * rsyncコマンドをdry-runで実行する
+     *
+     * @throws RuntimeException
      */
     public function dry_run()
     {
