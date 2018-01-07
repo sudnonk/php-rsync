@@ -32,7 +32,7 @@ class rsync
      */
     private static function check_rsync()
     {
-        if (self::execute("type rsync")['return_var'] !== 0) {
+        if (self::execute("type rsync") !== 0) {
             throw new RuntimeException("rsync command not found.");
         }
     }
@@ -61,7 +61,8 @@ class rsync
         $this->from = $from;
     }
 
-    public function to(string $to){
+    public function to(string $to)
+    {
         $this->to = $to;
     }
 
@@ -93,8 +94,7 @@ class rsync
         $delete = $this->is_delete ? "--delete" : "";
         $command = "rsync -" . $this->options . $delete . " " . $this->from . " " . $this->to;
 
-        $exec = self::execute($command);
-        if($exec['return_var'] !== 0){
+        if (self::execute($command) !== 0) {
             throw new RuntimeException("failed to exec rsync.");
         }
     }
@@ -112,18 +112,18 @@ class rsync
      * コマンドを実行し、実行結果と終了ステータスを返す
      *
      * @param string $command 実行するコマンド
-     * @return array('output'=>string[],'return_var'=>int) array('output'=>実行結果,'return_var'=>終了ステータス)
+     * @return int 終了ステータス
      */
-    private static function execute(string $command): array
+    private static function execute(string $command): int
     {
-        $output = array();
         $return_var = 1;
 
-        exec($command, $output, $return_var);
-        return array('output' => $output, 'return_var' => $return_var);
+        system($command, $return_var);
+        return $return_var;
     }
 
-    private function debug(){
+    private function debug()
+    {
         var_dump($this->options);
         var_dump($this->is_delete);
         var_dump($this->from);
