@@ -45,8 +45,13 @@ class rsync
      */
     public function from_dir_itself(string $from)
     {
-        $from = rtrim($from, "/");
-        $this->from = $from . "/";
+        $from = rtrim($from, "/") . "/";
+
+        if (!file_exists($from)) {
+            throw new RuntimeException("from_dir does not exists.");
+        } else {
+            $this->from = $from;
+        }
     }
 
     /**
@@ -58,11 +63,23 @@ class rsync
     public function from_file(string $from)
     {
         $from = rtrim($from, "/");
-        $this->from = $from;
+
+        if (!file_exists($from)) {
+            throw new RuntimeException("from_dir does not exists.");
+        } else {
+            $this->from = $from;
+        }
     }
 
     public function to(string $to)
     {
+        if (!file_exists($to) && !is_dir($to)) {
+            if (!mkdir($to)) {
+                throw new RuntimeException("failed to mkdir.");
+            } else {
+                echo "made to_dir.";
+            }
+        }
         $this->to = $to;
     }
 
@@ -89,8 +106,6 @@ class rsync
      */
     public function run()
     {
-        $this->debug();
-
         $delete = $this->is_delete ? "--delete" : "";
         $command = "rsync -" . $this->options . $delete . " " . $this->from . " " . $this->to;
 
