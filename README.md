@@ -13,3 +13,5 @@ phpでrsyncを便利に使えるようにするクラスです。
 ## usage 使い方
 see `sample.php`
 
+## todo
+`--include`とか`--exclude`とか
