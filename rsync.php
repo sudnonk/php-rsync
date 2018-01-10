@@ -111,6 +111,7 @@ class rsync {
         $delete = $this->is_delete ? " --delete" : "";
         $command = "rsync " . $this->options . $delete . " " . $this->from . " " . $this->to;
 
+        var_dump($command);
         if (self::execute($command) !== 0) {
             throw new RuntimeException("failed to exec rsync.");
         }
