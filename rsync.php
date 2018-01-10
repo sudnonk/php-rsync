@@ -31,7 +31,7 @@ class rsync {
      */
     private static function check_rsync() {
         if (self::execute("type rsync") !== 0) {
-            throw new RuntimeException("rsync command not found.");
+            throw new RuntimeException("rsync command not found.\n");
         }
     }
 
@@ -46,7 +46,7 @@ class rsync {
         $from = rtrim($from, "/") . "/";
 
         if (!file_exists($from)) {
-            throw new RuntimeException("from_dir does not exists.");
+            throw new RuntimeException("from_dir does not exists.\n");
         } else {
             $this->from = $from;
         }
@@ -63,7 +63,7 @@ class rsync {
         $from = rtrim($from, "/");
 
         if (!file_exists($from)) {
-            throw new RuntimeException("from_dir does not exists.");
+            throw new RuntimeException("from_dir does not exists.\n");
         } else {
             $this->from = $from;
         }
@@ -78,7 +78,7 @@ class rsync {
     public function to(string $to) {
         if (!file_exists($to) && !is_dir($to)) {
             if (!mkdir($to)) {
-                throw new RuntimeException("failed to mkdir.");
+                throw new RuntimeException("failed to mkdir.\n");
             } else {
                 echo "made to_dir.\n";
             }
@@ -111,9 +111,10 @@ class rsync {
         $delete = $this->is_delete ? " --delete" : "";
         $command = "rsync " . $this->options . $delete . " " . $this->from . " " . $this->to;
 
-        var_dump($command);
         if (self::execute($command) !== 0) {
-            throw new RuntimeException("failed to exec rsync.");
+            throw new RuntimeException("failed to exec rsync.\n");
+        }else{
+            echo "rsync done.\n";
         }
     }
 
@@ -213,6 +214,8 @@ class rsync_ssh extends rsync {
 
     /**
      * rsyncコマンドを実行する
+     *
+     * @throws RuntimeException
      */
     public function run() {
         if ($this->use_ssh) {
