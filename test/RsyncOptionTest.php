@@ -1,7 +1,7 @@
 <?php
+    namespace sudnonk\Rsync\Test;
 
-
-    use sudnonk\Rsync\RsyncOption;
+    use sudnonk\Rsync\Option\RsyncOption;
     use PHPUnit\Framework\TestCase;
 
     class RsyncOptionTest extends TestCase {
@@ -20,7 +20,7 @@
          * @depends インスタンス化できる
          */
         public function インスタンス化できない() {
-            $this->expectException(InvalidArgumentException::class);
+            $this->expectException(\InvalidArgumentException::class);
             new RsyncOption("po");
         }
 
@@ -88,7 +88,7 @@
          * @depends インスタンス化できる
          */
         public function 引数を付けられない() {
-            $this->expectException(InvalidArgumentException::class);
+            $this->expectException(\InvalidArgumentException::class);
             new RsyncOption("delete", "po");
         }
 

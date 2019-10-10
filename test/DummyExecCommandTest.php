@@ -3,7 +3,7 @@
     namespace sudnonk\Rsync\Test;
 
     use PHPUnit\Framework\TestCase;
-    use sudnonk\Rsync\DummyExecCommand;
+    use sudnonk\Rsync\Exec\DummyExecCommand;
 
     class DummyExecCommandTest extends TestCase {
         /**

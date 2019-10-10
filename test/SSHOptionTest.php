@@ -1,7 +1,7 @@
 <?php
+    namespace sudnonk\Rsync\Test;
 
-
-    use sudnonk\Rsync\SSHOption;
+    use sudnonk\Rsync\Option\SSHOption;
     use PHPUnit\Framework\TestCase;
 
     class SSHOptionTest extends TestCase {
@@ -20,7 +20,7 @@
          * @depends インスタンス化できる
          */
         public function インスタンス化できない() {
-            $this->expectException(InvalidArgumentException::class);
+            $this->expectException(\InvalidArgumentException::class);
             new SSHOption("po");
         }
 
@@ -48,7 +48,7 @@
          * @depends インスタンス化できる
          */
         public function 引数を付けられない() {
-            $this->expectException(InvalidArgumentException::class);
+            $this->expectException(\InvalidArgumentException::class);
             new SSHOption("C", "po");
         }
 
