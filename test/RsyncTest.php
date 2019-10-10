@@ -68,10 +68,25 @@
             $rsync = new Rsync(true, $this->exec);
             $rsync->from_file(__FILE__);
             $rsync->to(__DIR__);
-            $rsync->set_option("a", "c", "v", "stats");
+            $rsync->set_options("a", "c", "v", "stats");
 
             $command = $rsync->build_command();
-            $expect = "rsync --stats -acv " . __FILE__ . " " . __DIR__;
+            $expect = "rsync -a -c -v --stats " . __FILE__ . " " . __DIR__;
+            self::assertSame($expect, $command);
+        }
+
+        /**
+         * @test
+         * @depends インスタンス化できる
+         */
+        public function 引数付きのオブションが付く(){
+            $rsync = new Rsync(true, $this->exec);
+            $rsync->from_file(__FILE__);
+            $rsync->to(__DIR__);
+            $rsync->set_option("e","ssh");
+
+            $command = $rsync->build_command();
+            $expect = "rsync -e ssh " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
 
@@ -102,10 +117,11 @@
             $rsync->to(__DIR__);
             $rsync->enable_dry_run();
             $rsync->enable_delete();
-            $rsync->set_option("a", "c", "v", "stats");
+            $rsync->set_options("a", "c", "v", "stats");
+            $rsync->set_option("e","'ssh'");
 
             $command = $rsync->build_command();
-            $expect = "rsync --dry-run --delete --stats -acv " . __FILE__ . " " . __DIR__;
+            $expect = "rsync --dry-run --delete -a -c -v --stats -e 'ssh' " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
 

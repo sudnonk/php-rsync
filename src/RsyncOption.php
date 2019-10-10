@@ -9,6 +9,7 @@
         private $option;
         /** @var string|null $param オプションの引数 */
         private $param = null;
+        private $has_param = false;
         private $is_short = false;
         private $is_long = false;
 
@@ -27,6 +28,7 @@
                     throw new \InvalidArgumentException("this option does not accept parameter.");
                 } else {
                     $this->param = $param;
+                    $this->has_param = true;
                 }
             }
 
@@ -45,6 +47,13 @@
         }
 
         /**
+         * @return string|null
+         */
+        public function getParam(): ?string {
+            return $this->param;
+        }
+
+        /**
          * @return bool
          */
         public function isShort(): bool {
@@ -56,6 +65,10 @@
          */
         public function isLong(): bool {
             return $this->is_long;
+        }
+
+        public function hasParam(): bool {
+            return $this->has_param;
         }
 
         /**
@@ -81,65 +94,24 @@
         }
 
         /**
-         * @param RsyncOption[] $longs
-         * @return string
-         */
-        public static function combine_long(array $longs): string {
-            $str = "";
-            foreach ($longs as $long) {
-                $str .= sprintf("--%s ", $long->get());
-            }
-
-            return trim($str);
-        }
-
-        /**
-         * @param RsyncOption[] $shorts
-         * @return string
-         */
-        public static function combine_short(array $shorts): string {
-            $str = "-";
-            foreach ($shorts as $short) {
-                $str .= $short->get();
-            }
-            return $str;
-        }
-
-        /**
          * オプションを全部くっつける
          *
          * @param RsyncOption[] $options
          * @return string
          */
         public static function combine(array $options): string {
-            $contains_long = false;
-            $contains_short = false;
-
-            /** @var RsyncOption[] $longs 長いやつ */
-            $longs = [];
-            /** @var RsyncOption[] $shorts 短いやつ */
-            $shorts = [];
-
+            $str = "";
             foreach ($options as $option) {
                 if ($option->isLong()) {
-                    $longs[] = $option;
-                    $contains_long = true;
+                    $str .= sprintf("--%s ", $option->get());
                 } else {
-                    $shorts[] = $option;
-                    $contains_short = true;
+                    $str .= sprintf("-%s ", $option->get());
+                }
+                if ($option->hasParam()) {
+                    $str .= sprintf("%s ", $option->getParam());
                 }
             }
 
-            switch (true) {
-                case $contains_long && $contains_short:
-                    return sprintf("%s %s ", self::combine_long($longs), self::combine_short($shorts));
-                case $contains_long && !$contains_short:
-                    return sprintf("%s ", self::combine_long($longs));
-                case !$contains_long && $contains_short:
-                    return sprintf("%s ", self::combine_short($shorts));
-                default:
-                    return "";
-
-            }
+            return $str;
         }
     }
