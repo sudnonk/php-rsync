@@ -18,5 +18,8 @@
         "psr-4": {
             "sudnonk\\Rsync\\": "src/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.4"
     }
 }
