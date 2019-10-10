@@ -48,8 +48,8 @@
          */
         public function コマンドが組み立てられる() {
             $rsync = new Rsync(true, $this->exec);
-            $rsync->from_file(__FILE__);
-            $rsync->to(__DIR__);
+            $rsync->set_from(__FILE__, false);
+            $rsync->set_to(__DIR__);
 
             $command = $rsync->build_command();
             $expect = "rsync " . __FILE__ . " " . __DIR__;
@@ -62,9 +62,9 @@
          */
         public function dry_runになる() {
             $rsync = new Rsync(true, $this->exec);
-            $rsync->from_file(__FILE__);
-            $rsync->to(__DIR__);
-            $rsync->enable_dry_run();
+            $rsync->set_from(__FILE__, false);
+            $rsync->set_to(__DIR__);
+            $rsync->options()->setDryRun();
 
             $command = $rsync->build_command();
             $expect = "rsync --dry-run " . __FILE__ . " " . __DIR__;
@@ -77,9 +77,9 @@
          */
         public function オプションが付く() {
             $rsync = new Rsync(true, $this->exec);
-            $rsync->from_file(__FILE__);
-            $rsync->to(__DIR__);
-            $rsync->set_options("a", "c", "v", "stats");
+            $rsync->set_from(__FILE__, false);
+            $rsync->set_to(__DIR__);
+            $rsync->options()->sets("a", "c", "v", "stats");
 
             $command = $rsync->build_command();
             $expect = "rsync -a -c -v --stats " . __FILE__ . " " . __DIR__;
@@ -92,9 +92,9 @@
          */
         public function 引数付きのオブションが付く() {
             $rsync = new Rsync(true, $this->exec);
-            $rsync->from_file(__FILE__);
-            $rsync->to(__DIR__);
-            $rsync->set_option("e", "ssh");
+            $rsync->set_from(__FILE__, false);
+            $rsync->set_to(__DIR__);
+            $rsync->options()->set("e", "ssh");
 
             $command = $rsync->build_command();
             $expect = "rsync -e ssh " . __FILE__ . " " . __DIR__;
@@ -107,9 +107,9 @@
          */
         public function deleteが付く() {
             $rsync = new Rsync(true, $this->exec);
-            $rsync->from_file(__FILE__);
-            $rsync->to(__DIR__);
-            $rsync->enable_delete();
+            $rsync->set_from(__FILE__, false);
+            $rsync->set_to(__DIR__);
+            $rsync->options()->setDelete();
 
             $command = $rsync->build_command();
             $expect = "rsync --delete " . __FILE__ . " " . __DIR__;
@@ -124,15 +124,16 @@
          */
         public function オブションが全部同時に付く() {
             $rsync = new Rsync(true, $this->exec);
-            $rsync->from_file(__FILE__);
-            $rsync->to(__DIR__);
-            $rsync->enable_dry_run();
-            $rsync->enable_delete();
-            $rsync->set_options("a", "c", "v", "stats");
-            $rsync->set_option("e", "'ssh'");
+            $rsync->set_from(__FILE__, false);
+            $rsync->set_to(__DIR__);
+            $rsync->options()->setDryRun();
+            $rsync->options()->setDelete();
+            $rsync->options()->sets("a", "c", "v", "stats");
+            $rsync->ssh_options()->setPorts(1022);
+            $rsync->ssh_options()->setCerts(__FILE__);
 
             $command = $rsync->build_command();
-            $expect = "rsync --dry-run --delete -a -c -v --stats -e 'ssh' " . __FILE__ . " " . __DIR__;
+            $expect = "rsync --dry-run --delete -a -c -v --stats -e 'ssh -p 1022 -i " . __FILE__ . "' " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
 
@@ -142,21 +143,11 @@
          */
         public function ディレクトリのとき() {
             $rsync = new Rsync(true, $this->exec);
-            $rsync->from_dir_itself(__DIR__);
-            $rsync->to(__DIR__);
+            $rsync->set_from(__DIR__, true);
+            $rsync->set_to(__DIR__);
 
             $command = $rsync->build_command();
             $expect = "rsync " . __DIR__ . DIRECTORY_SEPARATOR . " " . __DIR__;
             self::assertSame($expect, $command);
-        }
-
-        /**
-         * @test
-         * @depends インスタンス化できる
-         */
-        public function 変なオプション() {
-            $rsync = new Rsync(true, $this->exec);
-            $this->expectException(\InvalidArgumentException::class);
-            $rsync->set_option("popopo");
         }
     }
