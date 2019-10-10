@@ -1,0 +1,13 @@
+{
+    "name": "sudnonk/php-rsync",
+    "description": "Use rsync command from PHP.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sudnonk",
+            "email": "sudnonk12@yahoo.co.jp"
+        }
+    ],
+    "require": {}
+}
