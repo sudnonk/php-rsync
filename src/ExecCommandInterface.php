@@ -1,5 +1,6 @@
 <?php
 
+    namespace sudnonk\Rsync;
 
     interface ExecCommandInterface {
         /**

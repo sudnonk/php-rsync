@@ -1,5 +1,7 @@
 <?php
 
+    namespace sudnonk\Rsync;
+
     class RsyncSSH extends Rsync {
         /* @var bool $use_ssh sshを使うか */
         private $use_ssh = true;
@@ -66,7 +68,7 @@
         /**
          * rsyncコマンドを実行する
          *
-         * @throws RuntimeException
+         * @throws \RuntimeException
          */
         public function run() {
             if ($this->use_ssh) {

@@ -4,6 +4,8 @@
      * User: sudnonk
      */
 
+    namespace sudnonk\Rsync;
+
     class Rsync {
 
         /* @var string $options オプション。aとかuとか */
@@ -24,7 +26,7 @@
          *
          * @param bool $is_cli CLIからの実行で、出力を標準出力に出したかったらtrue
          * @param ExecCommandInterface|null $execCommand
-         * @throws RuntimeException
+         * @throws \RuntimeException
          */
         public function __construct(bool $is_cli = false,ExecCommandInterface $execCommand = null) {
             clearstatcache();
@@ -32,7 +34,7 @@
             $this->is_cli = $is_cli;
             $this->execCommand = $execCommand ?? new ExecCommand();
             if (!$this->execCommand->isRsyncEnabled()) {
-                throw new RuntimeException("Cannot execute rsync command. Check exists.");
+                throw new \RuntimeException("Cannot execute rsync command. Check exists.");
             }
         }
 
@@ -41,13 +43,13 @@
          * パスの末尾に強制で/を付ける
          *
          * @param string $from
-         * @throws RuntimeException ディレクトリが見つからなかった場合
+         * @throws \RuntimeException ディレクトリが見つからなかった場合
          */
         public function from_dir_itself(string $from) {
             $from = rtrim($from, "/") . "/";
 
             if (!is_dir($from)) {
-                throw new RuntimeException("from_dir does not exist.\n");
+                throw new \RuntimeException("from_dir does not exist.\n");
             } else {
                 $this->from = $from;
             }
@@ -58,13 +60,13 @@
          * パスの末尾の/を強制で取る
          *
          * @param string $from
-         * @throws RuntimeException ディレクトリが見つからなかった場合
+         * @throws \RuntimeException ディレクトリが見つからなかった場合
          */
         public function from_file(string $from) {
             $from = rtrim($from, "/");
 
             if (!file_exists($from)) {
-                throw new RuntimeException("from_file does not exist.\n");
+                throw new \RuntimeException("from_file does not exist.\n");
             } else {
                 $this->from = $from;
             }
@@ -74,12 +76,12 @@
          * 宛先を指定する
          *
          * @param string $to
-         * @throws RuntimeException 宛先フォルダの生成に失敗した場合
+         * @throws \RuntimeException 宛先フォルダの生成に失敗した場合
          */
         public function to(string $to) {
             if (!file_exists($to) && !is_dir($to)) {
                 if (!mkdir($to)) {
-                    throw new RuntimeException("failed to mkdir.\n");
+                    throw new \RuntimeException("failed to mkdir.\n");
                 }elseif($this->is_cli){
                     echo "create target dir.";
                 }
@@ -111,13 +113,13 @@
         /**
          * rsyncコマンドを実行する
          *
-         * @throws RuntimeException rsyncコマンドに失敗した場合
+         * @throws \RuntimeException rsyncコマンドに失敗した場合
          */
         public function run() {
             $command = $this->build_command();
 
             if ($this->execCommand->execute($command) !== 0) {
-                throw new RuntimeException("failed to exec rsync.\n");
+                throw new \RuntimeException("failed to exec rsync.\n");
             }else{
                 echo "rsync success.";
             }
@@ -126,7 +128,7 @@
         /**
          * rsyncコマンドをdry-runで実行する
          *
-         * @throws RuntimeException
+         * @throws \RuntimeException
          */
         public function dry_run() {
             $this->set_option("n");

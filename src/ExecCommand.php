@@ -1,5 +1,6 @@
 <?php
 
+    namespace sudnonk\Rsync;
 
     class ExecCommand implements ExecCommandInterface {
         /**
@@ -23,7 +24,7 @@
         /**
          * @inheritDoc
          */
-        public function isRsyncEnabled() :bool {
+        public function isRsyncEnabled(): bool {
             return (self::execute("type rsync") === 0);
         }
     }
