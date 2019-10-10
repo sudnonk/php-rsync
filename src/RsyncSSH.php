@@ -5,8 +5,8 @@
     class RsyncSSH extends Rsync {
         /* @var bool $use_ssh sshを使うか */
         private $use_ssh = true;
-        /* @var string $ssh_option sshのオプション */
-        private $ssh_option = "";
+        /* @var SSHOption[] $ssh_option sshのオプション */
+        private $ssh_options = [];
         /* @var string $from_userhost コピー元のuser@host */
         private $from_userhost = "";
         /* @var string $to_userhost コピー先のuser@host */
@@ -53,7 +53,7 @@
          * @param string $path_of_cert
          */
         public function set_cert(string $path_of_cert) {
-            $this->ssh_option .= " -i " . $path_of_cert;
+            $this->set_ssh_option("i", $path_of_cert);
         }
 
         /**
@@ -62,21 +62,27 @@
          * @param int $port
          */
         public function set_port(int $port) {
-            $this->ssh_option .= "-p " . $port;
+            $this->set_ssh_option("p", (string)$port);
         }
 
         /**
-         * rsyncコマンドを実行する
-         *
-         * @throws \RuntimeException
+         * @param string      $option
+         * @param string|null $param
          */
-        public function run() {
+        public function set_ssh_option(string $option, string $param = null) {
+            $this->ssh_options[] = new SSHOption($option, $param);
+        }
+
+        /**
+         * @return string
+         */
+        public function build_command(): string {
             if ($this->use_ssh) {
-                $this->options .= " -e 'ssh $this->ssh_option'";
-                $this->from = $this->from_userhost . $this->from;
-                $this->to = $this->to_userhost . $this->to;
+                $this->set_option("e", SSHOption::combine($this->ssh_options));
+                $this->from = $this->from_userhost . $this->get_from();
+                $this->to = $this->to_userhost . $this->get_to();
             }
 
-            parent::run();
+            return parent::build_command();
         }
     }
