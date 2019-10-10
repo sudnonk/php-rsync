@@ -72,7 +72,7 @@
                 $userHost = null;
             }
 
-            $this->to = new ToDir($to_dir);
+            $this->to = new ToDir($to_dir, $userHost);
         }
 
         public function options(): RsyncOptions {
