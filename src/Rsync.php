@@ -38,13 +38,13 @@
 
         /**
          * ディレクトリ自体をコピーする
-         * パスの末尾に強制で/を付ける
+         * パスの末尾に強制で/を付けると、宛先フォルダの中にこのフォルダの中身だけがコピーされる
          *
          * @param string $from
          * @throws \RuntimeException ディレクトリが見つからなかった場合
          */
         public function from_dir_itself(string $from) {
-            $from = rtrim($from, "/") . "/";
+            $from = rtrim($from, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
             if (!is_dir($from)) {
                 throw new \RuntimeException("from_dir does not exist.\n");
@@ -55,7 +55,7 @@
 
         /**
          * ディレクトリの中身またはファイル自体をコピーする
-         * パスの末尾の/を強制で取る
+         * パスの末尾の/を強制で取ると、宛先フォルダの中にこのフォルダ自体がコピーされる
          *
          * @param string $from
          * @throws \RuntimeException ディレクトリが見つからなかった場合
@@ -72,6 +72,7 @@
 
         /**
          * 宛先を指定する
+         * 宛先フォルダの末尾スラッシュは影響しない
          *
          * @param string $to
          * @throws \RuntimeException 宛先フォルダの生成に失敗した場合
@@ -90,11 +91,12 @@
         /**
          * オプションを設定する
          *
-         * @param string $option
-         * @throws \InvalidArgumentException
+         * @param string ...$options
          */
-        public function set_option(string $option) {
-            $this->options[] = new RsyncOption($option);
+        public function set_option(string ...$options) {
+            foreach ($options as $option) {
+                $this->options[] = new RsyncOption($option);
+            }
         }
 
         /**

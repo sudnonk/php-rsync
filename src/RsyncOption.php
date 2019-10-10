@@ -8,7 +8,7 @@
         /** @var string $option */
         private $option;
         private $is_short = false;
-        private $is_long = true;
+        private $is_long = false;
 
         /**
          * RsyncOption constructor.
