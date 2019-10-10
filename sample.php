@@ -1,28 +1,21 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: sudnonk
- */
+    /**
+     * Created by IntelliJ IDEA.
+     * User: sudnonk
+     */
 
-require_once "rsync.php";
+    use sudnonk\Rsync\Rsync;
 
-try {
-    /* normal rsync */
-    $rsync = new rsync();
-    $rsync->set_option('-auvz');
-    $rsync->from_dir_itself('/root/test');
-    $rsync->to("/root/test2");
-    $rsync->dry_run();
+    require_once "./vendor/autoload.php";
 
-    /* rsync with ssh */
-    $rsync_ssh = new rsync_ssh();
-    $rsync_ssh->set_option('-auvz');
-    $rsync_ssh->from_file('/root/test/test1.txt');
-    $rsync_ssh->to("/root/test2");
-    $rsync_ssh->from_userhost('root', 'example.com');
-    $rsync_ssh->set_port(10022);
-    $rsync_ssh->run();
+    try {
+        $rsync = new Rsync();
+        $rsync->options()->sets('auvz');
+        $rsync->set_from('/root/test', true);
+        $rsync->set_to("/root/test2", "root", "localhost");
+        $rsync->options()->setDryRun();
+        $rsync->run();
 
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
