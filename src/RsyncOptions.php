@@ -6,87 +6,88 @@
     class RsyncOptions {
         /**
          * @const array OPTIONS [[長い,短い],[長い=>短い],...] ないやつはnull
-         * @see https://www.atmarkit.co.jp/ait/articles/1702/02/news031.html
+         * @see   https://www.atmarkit.co.jp/ait/articles/1702/02/news031.html
          *        todo: 引数を取るオプションに対応する（set_optionに第二引数作ったらできそう）
          */
         public const OPTIONS = [
-            ["long" => "verbose", "short" => "v"],
-            ["long" => "quiet", "short" => "q"],
-            ["long" => "dry-run", "short" => "n"],
-            ["long" => "stats", "short" => null],
-            ["long" => "list-only", "short" => null],
-            ["long" => "archive", "short" => "a"],
+            ["long" => "verbose", "short" => "v", "accept" => false],
+            ["long" => "quiet", "short" => "q", "accept" => false],
+            ["long" => "dry-run", "short" => "n", "accept" => false],
+            ["long" => "stats", "short" => null, "accept" => false],
+            ["long" => "list-only", "short" => null, "accept" => false],
+            ["long" => "archive", "short" => "a", "accept" => false],
             //--no-**
-            ["long" => "ignore-times", "short" => "I"],
-            ["long" => "size-only", "short" => null],
-            ["long" => "checksum", "short" => "c"],
-            ["long" => "daemon", "short" => null],
-            ["long" => "recursive", "short" => "r"],
-            ["long" => "links", "short" => "l"],
-            ["long" => "perms", "short" => "p"],
-            ["long" => "times", "short" => "t"],
-            ["long" => "group", "short" => "g"],
-            ["long" => "owner", "short" => "o"],
-            ["long" => null, "short" => "D"],
-            ["long" => "devices", "short" => null],
-            ["long" => "specials", "short" => null],
-            ["long" => "hard-links", "short" => "H"],
-            ["long" => "acls", "short" => "A"],
-            ["long" => "xattrs", "short" => "X"],
-            ["long" => "relative", "short" => "R"],
-            ["long" => "dirs", "short" => "d"],
-            ["long" => "update", "short" => "u"],
-            ["long" => "inplace", "short" => null],
-            ["long" => "append", "short" => null],
-            ["long" => "backup", "short" => "b"],
-            //backup-dir,
-            //suffix,
-            ["long" => "existing", "short" => null],
-            ["long" => "ignore-existing", "short" => null],
-            ["long" => "remove-source-files", "short" => null],
-            ["long" => "delete", "short" => null],
-            ["long" => "delete-before", "short" => null],
-            ["long" => "delete-during", "short" => null],
-            ["long" => "del", "short" => null],
-            ["long" => "delete-delay", "short" => null],
-            ["long" => "delete-after", "short" => null],
-            ["long" => "delete-excluded", "short" => null],
-            ["long" => "delete-excluded", "short" => null],
-            ["long" => "ignore-errors", "short" => null],
-            ["long" => "force", "short" => null],
-            //max-delete
-            //max-size
-            //min-size,
-            //exclude,
-            //exclude-from,
-            //include,
-            //include-from,
-            //files-from
-            ["long" => "from0", "short" => "0"],
-            ["long" => "copy-links", "short" => "L"],
-            ["long" => "safe-links", "short" => null],
-            ["long" => "copy-unsafe-links", "short" => null],
-            ["long" => "copy-dirlinks", "short" => "k"],
-            ["long" => "keep-dirlinks", "short" => "K"],
-            ["long" => "executability", "short" => "E"],
-            //chmod
-            ["long" => "omit-dir-times", "short" => "O"],
-            //temp-dir,
-            ["long" => "compress", "short" => "z"],
-            //comress-level
-            //skip-compress
-            //port
-            //sockopts,
-            ["long" => "8-bit-output", "short" => "8"],
-            ["long" => "human-readable", "short" => "h"],
-            ["long" => "progress", "short" => null],
-            ["long" => null, "short" => "P"],
-            ["long" => "partial", "short" => null],
-            //partial-dir,
-            ["long" => "ipv4", "short" => "4"],
-            ["long" => "ipv6", "short" => "6"],
-            //timeout
-            //iconv
+            ["long" => "ignore-times", "short" => "I", "accept" => false],
+            ["long" => "size-only", "short" => null, "accept" => false],
+            ["long" => "checksum", "short" => "c", "accept" => false],
+            ["long" => "daemon", "short" => null, "accept" => false],
+            ["long" => "recursive", "short" => "r", "accept" => false],
+            ["long" => "links", "short" => "l", "accept" => false],
+            ["long" => "perms", "short" => "p", "accept" => false],
+            ["long" => "times", "short" => "t", "accept" => false],
+            ["long" => "group", "short" => "g", "accept" => false],
+            ["long" => "owner", "short" => "o", "accept" => false],
+            ["long" => null, "short" => "D", "accept" => false],
+            ["long" => "devices", "short" => null, "accept" => false],
+            ["long" => "specials", "short" => null, "accept" => false],
+            ["long" => "hard-links", "short" => "H", "accept" => false],
+            ["long" => "acls", "short" => "A", "accept" => false],
+            ["long" => "xattrs", "short" => "X", "accept" => false],
+            ["long" => "relative", "short" => "R", "accept" => false],
+            ["long" => "dirs", "short" => "d", "accept" => false],
+            ["long" => "update", "short" => "u", "accept" => false],
+            ["long" => "inplace", "short" => null, "accept" => false],
+            ["long" => "append", "short" => null, "accept" => false],
+            ["long" => "backup", "short" => "b", "accept" => false],
+            ["long" => "backup-dir", "short" => null, "accept" => true],
+            ["long" => "suffix", "short" => null, "accept" => true],
+            ["long" => "existing", "short" => null, "accept" => false],
+            ["long" => "ignore-existing", "short" => null, "accept" => false],
+            ["long" => "remove-source-files", "short" => null, "accept" => false],
+            ["long" => "delete", "short" => null, "accept" => false],
+            ["long" => "delete-before", "short" => null, "accept" => false],
+            ["long" => "delete-during", "short" => null, "accept" => false],
+            ["long" => "del", "short" => null, "accept" => false],
+            ["long" => "delete-delay", "short" => null, "accept" => false],
+            ["long" => "delete-after", "short" => null, "accept" => false],
+            ["long" => "delete-excluded", "short" => null, "accept" => false],
+            ["long" => "delete-excluded", "short" => null, "accept" => false],
+            ["long" => "ignore-errors", "short" => null, "accept" => false],
+            ["long" => "force", "short" => null, "accept" => false],
+            ["long" => "max-delete", "short" => null, "accept" => true],
+            ["long" => "max-size", "short" => null, "accept" => true],
+            ["long" => "min-size", "short" => null, "accept" => true],
+            ["long" => "exclude", "short" => null, "accept" => true],
+            ["long" => "exclude-from", "short" => null, "accept" => true],
+            ["long" => "include", "short" => null, "accept" => true],
+            ["long" => "include-from", "short" => null, "accept" => true],
+            ["long" => "files-from", "short" => null, "accept" => true],
+            ["long" => "from0", "short" => "0", "accept" => false],
+            ["long" => "copy-links", "short" => "L", "accept" => false],
+            ["long" => "safe-links", "short" => null, "accept" => false],
+            ["long" => "copy-unsafe-links", "short" => null, "accept" => false],
+            ["long" => "copy-dirlinks", "short" => "k", "accept" => false],
+            ["long" => "keep-dirlinks", "short" => "K", "accept" => false],
+            ["long" => "executability", "short" => "E", "accept" => false],
+            ["long" => "chmod", "short" => null, "accept" => true],
+            ["long" => "omit-dir-times", "short" => "O", "accept" => false],
+            ["long" => "temp-dir", "short" => null, "accept" => true],
+            ["long" => "compress", "short" => "z", "accept" => false],
+            ["long" => "comress-level", "short" => null, "accept" => true],
+            ["long" => "skip-compress", "short" => null, "accept" => true],
+            ["long" => "port", "short" => null, "accept" => true],
+            ["long" => "sockopts", "short" => null, "accept" => true],
+            ["long" => "8-bit-output", "short" => "8", "accept" => false],
+            ["long" => "human-readable", "short" => "h", "accept" => false],
+            ["long" => "progress", "short" => null, "accept" => false],
+            ["long" => null, "short" => "P", "accept" => false],
+            ["long" => "partial", "short" => null, "accept" => false],
+            ["long" => "partial-dir", "short" => null, "accept" => true],
+            ["long" => "ipv4", "short" => "4", "accept" => false],
+            ["long" => "ipv6", "short" => "6", "accept" => false],
+            ["long" => "timeout", "short" => null, "accept" => true],
+            ["long" => "iconv", "short" => null, "accept" => true],
+            ["long" => null, "short" => "e", "accept" => true],
         ];
 
         /**
@@ -210,5 +211,16 @@
          */
         public static function is_short(string $option): bool {
             return (in_array($option, self::get_shorts(), true));
+        }
+
+        /**
+         * その$optionが引数を取るか
+         *
+         * @param string $option
+         * @return bool
+         */
+        public static function is_accept_param(string $option): bool {
+            $index = self::get_index($option);
+            return self::OPTIONS[$index]["accept"];
         }
     }

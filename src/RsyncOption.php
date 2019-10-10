@@ -7,6 +7,8 @@
     class RsyncOption {
         /** @var string $option */
         private $option;
+        /** @var string|null $param オプションの引数 */
+        private $param = null;
         private $is_short = false;
         private $is_long = false;
 
@@ -14,12 +16,20 @@
          * RsyncOption constructor.
          * @param string $option
          */
-        public function __construct(string $option) {
+        public function __construct(string $option, string $param = null) {
             if (!RsyncOptions::is_exists($option)) {
                 throw new \InvalidArgumentException("option does not exists.");
             } else {
                 $this->option = $option;
             }
+            if ($param !== null) {
+                if (!RsyncOptions::is_accept_param($option)) {
+                    throw new \InvalidArgumentException("this option does not accept parameter.");
+                } else {
+                    $this->param = $param;
+                }
+            }
+
             if (RsyncOptions::is_short($option)) {
                 $this->is_short = true;
             } else {

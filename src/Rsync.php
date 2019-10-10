@@ -89,11 +89,21 @@
         }
 
         /**
-         * オプションを設定する
+         * オプションを一つ設定する
+         *
+         * @param string      $option
+         * @param string|null $param そのオプションの引数
+         */
+        public function set_option(string $option, string $param = null) {
+            $this->options[] = new RsyncOption($option, $param);
+        }
+
+        /**
+         * オプションを複数設定する
          *
          * @param string ...$options
          */
-        public function set_option(string ...$options) {
+        public function set_options(string ...$options) {
             foreach ($options as $option) {
                 $this->options[] = new RsyncOption($option);
             }
