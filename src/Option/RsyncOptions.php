@@ -1,11 +1,11 @@
 <?php
 
 
-    namespace sudnonk\Rsync;
+    namespace sudnonk\Rsync\Option;
 
 
-    class SSHOptions {
-        /** @var SSHOption[] $options */
+    class RsyncOptions implements OptionsInterface {
+        /** @var RsyncOption[] $options */
         private $options;
 
         public function __construct() {
@@ -16,35 +16,35 @@
          * @param string      $option
          * @param string|null $param
          */
-        public function set(string $option, string $param = null) {
-            $this->options[] = new SSHOption($option, $param);
+        public function set(string $option, string $param = null) :void {
+            $this->options[] = new RsyncOption($option, $param);
         }
 
         /**
          * @param string ...$options
          */
-        public function sets(string ...$options) {
+        public function sets(string ...$options) :void {
             foreach ($options as $option) {
                 $this->set($option);
             }
         }
 
-        public function setCerts(string $cert_path) {
-            $this->set("i", $cert_path);
+        public function setDryRun() {
+            $this->set("dry-run");
         }
 
-        public function setPorts(int $port) {
-            $this->set("p", (string)$port);
+        public function setDelete() {
+            $this->set("delete");
         }
 
         /**
-         * @return SSHOption[]
+         * @return RsyncOption[]
          */
         public function get(): array {
             return $this->options;
         }
 
-        public function count():int{
+        public function count(): int {
             return count($this->options);
         }
     }

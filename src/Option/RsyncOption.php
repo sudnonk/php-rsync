@@ -1,10 +1,10 @@
 <?php
 
 
-    namespace sudnonk\Rsync;
+    namespace sudnonk\Rsync\Option;
 
 
-    class RsyncOption {
+    class RsyncOption implements OptionInterface {
         /** @var string $option */
         private $option;
         /** @var string|null $param オプションの引数 */

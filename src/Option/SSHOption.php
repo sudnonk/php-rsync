@@ -1,10 +1,10 @@
 <?php
 
 
-    namespace sudnonk\Rsync;
+    namespace sudnonk\Rsync\Option;
 
 
-    class SSHOption {
+    class SSHOption implements OptionInterface {
         private $option;
         private $param;
         private $has_param = false;
