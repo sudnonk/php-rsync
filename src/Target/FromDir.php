@@ -17,12 +17,16 @@
          */
         public function __construct(string $dir_name, UserHost $userHost = null) {
             $dir = new \SplFileInfo($dir_name);
-            if (!$dir->isDir()) {
-                throw new \RuntimeException("the file is not dir.");
-            }
-            $this->path = $dir->getRealPath();
-            if ($this->path === false) {
-                throw new \RuntimeException("failed to get readPath.");
+            if($userHost === null) {//nullのときはローカルなのでisDirが使える
+                if (!$dir->isDir()) {
+                    throw new \RuntimeException("the file is not dir.");
+                }
+                $this->path = $dir->getRealPath();
+                if ($this->path === false) {
+                    throw new \RuntimeException("failed to get readPath.");
+                }
+            }else{
+                $this->path = $dir->getPath() . DIRECTORY_SEPARATOR . $dir->getBasename();
             }
             $this->path .= DIRECTORY_SEPARATOR;
 

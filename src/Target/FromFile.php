@@ -15,12 +15,16 @@
          */
         public function __construct(string $file_name, UserHost $userHost = null) {
             $file = new \SplFileInfo($file_name);
-            if (!$file->isReadable()) {
-                throw new \RuntimeException("can not read the file.");
-            }
-            $this->path = $file->getRealPath();
-            if ($this->path === false) {
-                throw new \RuntimeException("failed to get readPath.");
+            if($userHost === null) {//nullのときはローカルなのでisReadableが使える
+                if (!$file->isReadable()) {
+                    throw new \RuntimeException("can not read the file.");
+                }
+                $this->path = $file->getRealPath();
+                if ($this->path === false) {
+                    throw new \RuntimeException("failed to get readPath.");
+                }
+            }else{
+                $this->path = $file->getPath() . DIRECTORY_SEPARATOR . $file->getBasename();
             }
 
             $this->userHost = $userHost;
