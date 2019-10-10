@@ -3,7 +3,7 @@
 
     namespace sudnonk\Rsync;
 
-    class RsyncOptions {
+    class RsyncOptionDirectory {
         /**
          * @const array OPTIONS [[長い,短い],[長い=>短い],...] ないやつはnull
          * @see   https://www.atmarkit.co.jp/ait/articles/1702/02/news031.html

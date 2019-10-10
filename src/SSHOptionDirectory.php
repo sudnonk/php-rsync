@@ -4,7 +4,7 @@
     namespace sudnonk\Rsync;
 
 
-    class SSHOptions {
+    class SSHOptionDirectory {
         /**
          * @const OPTIONS
          */

@@ -10,13 +10,13 @@
         private $has_param = false;
 
         public function __construct(string $option, string $param = null) {
-            if (!SSHOptions::is_exists($option)) {
+            if (!SSHOptionDirectory::is_exists($option)) {
                 throw new \InvalidArgumentException("option does not exists.");
             } else {
                 $this->option = $option;
             }
             if ($param !== null) {
-                if (!SSHOptions::is_accept_param($option)) {
+                if (!SSHOptionDirectory::is_accept_param($option)) {
                     throw new \InvalidArgumentException("this option does not accept parameter.");
                 } else {
                     $this->param = $param;

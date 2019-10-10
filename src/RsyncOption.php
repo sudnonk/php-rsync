@@ -18,13 +18,13 @@
          * @param string $option
          */
         public function __construct(string $option, string $param = null) {
-            if (!RsyncOptions::is_exists($option)) {
+            if (!RsyncOptionDirectory::is_exists($option)) {
                 throw new \InvalidArgumentException("option does not exists.");
             } else {
                 $this->option = $option;
             }
             if ($param !== null) {
-                if (!RsyncOptions::is_accept_param($option)) {
+                if (!RsyncOptionDirectory::is_accept_param($option)) {
                     throw new \InvalidArgumentException("this option does not accept parameter.");
                 } else {
                     $this->param = $param;
@@ -32,7 +32,7 @@
                 }
             }
 
-            if (RsyncOptions::is_short($option)) {
+            if (RsyncOptionDirectory::is_short($option)) {
                 $this->is_short = true;
             } else {
                 $this->is_long = true;
@@ -78,7 +78,7 @@
             if ($this->isShort()) {
                 return $this->get();
             } else {
-                return RsyncOptions::get_short($this->get());
+                return RsyncOptionDirectory::get_short($this->get());
             }
         }
 
@@ -89,7 +89,7 @@
             if ($this->isLong()) {
                 return $this->get();
             } else {
-                return RsyncOptions::get_long($this->get());
+                return RsyncOptionDirectory::get_long($this->get());
             }
         }
 
