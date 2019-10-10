@@ -1,7 +1,7 @@
 <?php
 
 
-    namespace sudnonk\Rsync;
+    namespace sudnonk\Rsync\Option;
 
 
     class SSHOptionDirectory {

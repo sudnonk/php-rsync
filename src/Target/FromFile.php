@@ -1,6 +1,6 @@
 <?php
 
-    namespace sudnonk\Rsync;
+    namespace sudnonk\Rsync\Target;
 
     /**
      * Class FromFile

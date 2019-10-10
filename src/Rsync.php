@@ -6,6 +6,18 @@
 
     namespace sudnonk\Rsync;
 
+    use sudnonk\Rsync\Exec\ExecCommand;
+    use sudnonk\Rsync\Exec\ExecCommandInterface;
+    use sudnonk\Rsync\Option\RsyncOption;
+    use sudnonk\Rsync\Option\RsyncOptions;
+    use sudnonk\Rsync\Option\SSHOption;
+    use sudnonk\Rsync\Option\SSHOptions;
+    use sudnonk\Rsync\Target\FromDir;
+    use sudnonk\Rsync\Target\FromFile;
+    use sudnonk\Rsync\Target\Target;
+    use sudnonk\Rsync\Target\ToDir;
+    use sudnonk\Rsync\Target\UserHost;
+
     class Rsync {
         /* @var Target $from コピー元 */
         protected $from = null;

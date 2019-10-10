@@ -1,7 +1,7 @@
 <?php
 
 
-    namespace sudnonk\Rsync;
+    namespace sudnonk\Rsync\Target;
 
 
     class ToDir extends Target {

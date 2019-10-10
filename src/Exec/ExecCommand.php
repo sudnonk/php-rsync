@@ -1,6 +1,6 @@
 <?php
 
-    namespace sudnonk\Rsync;
+    namespace sudnonk\Rsync\Exec;
 
     class ExecCommand implements ExecCommandInterface {
         /**
