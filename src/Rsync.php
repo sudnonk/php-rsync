@@ -141,7 +141,7 @@
          * @return string
          * @throws \BadMethodCallException
          */
-        public function build_command(): string {
+        public function build(): string {
             return "rsync " . $this->get_option() . $this->get_from() . " " . $this->get_to();
         }
 
@@ -152,7 +152,7 @@
          * @throws \BadMethodCallException
          */
         public function run() {
-            $command = $this->build_command();
+            $command = $this->build();
 
             if ($this->execCommand->execute($command, $this->is_cli) !== 0) {
                 throw new \RuntimeException("failed to exec rsync.\n");

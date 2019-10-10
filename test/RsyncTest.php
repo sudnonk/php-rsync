@@ -39,7 +39,7 @@
             $rsync = new Rsync(true, $this->exec);
 
             $this->expectException(\BadMethodCallException::class);
-            $rsync->build_command();
+            $rsync->build();
         }
 
         /**
@@ -51,7 +51,7 @@
             $rsync->set_from(__FILE__, false);
             $rsync->set_to(__DIR__);
 
-            $command = $rsync->build_command();
+            $command = $rsync->build();
             $expect = "rsync " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
@@ -66,7 +66,7 @@
             $rsync->set_to(__DIR__);
             $rsync->options()->setDryRun();
 
-            $command = $rsync->build_command();
+            $command = $rsync->build();
             $expect = "rsync --dry-run " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
@@ -81,7 +81,7 @@
             $rsync->set_to(__DIR__);
             $rsync->options()->sets("a", "c", "v", "stats");
 
-            $command = $rsync->build_command();
+            $command = $rsync->build();
             $expect = "rsync -a -c -v --stats " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
@@ -96,7 +96,7 @@
             $rsync->set_to(__DIR__);
             $rsync->options()->set("e", "ssh");
 
-            $command = $rsync->build_command();
+            $command = $rsync->build();
             $expect = "rsync -e ssh " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
@@ -111,7 +111,7 @@
             $rsync->set_to(__DIR__);
             $rsync->options()->setDelete();
 
-            $command = $rsync->build_command();
+            $command = $rsync->build();
             $expect = "rsync --delete " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
@@ -132,7 +132,7 @@
             $rsync->ssh_options()->setPorts(1022);
             $rsync->ssh_options()->setCerts(__FILE__);
 
-            $command = $rsync->build_command();
+            $command = $rsync->build();
             $expect = "rsync --dry-run --delete -a -c -v --stats -e 'ssh -p 1022 -i " . __FILE__ . "' " . __FILE__ . " " . __DIR__;
             self::assertSame($expect, $command);
         }
@@ -146,7 +146,7 @@
             $rsync->set_from(__DIR__, true);
             $rsync->set_to(__DIR__);
 
-            $command = $rsync->build_command();
+            $command = $rsync->build();
             $expect = "rsync " . __DIR__ . DIRECTORY_SEPARATOR . " " . __DIR__;
             self::assertSame($expect, $command);
         }
