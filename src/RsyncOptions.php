@@ -30,7 +30,7 @@
         }
 
         public function setDryRun() {
-            $this->set("n");
+            $this->set("dry-run");
         }
 
         public function setDelete() {
