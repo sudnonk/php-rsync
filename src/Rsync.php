@@ -17,6 +17,12 @@
 
         /** @var RsyncOption[] $options 選択されたオプション */
         protected $options = [];
+        /* @var SSHOption[] $ssh_option sshのオプション */
+        private $ssh_options = [];
+        /* @var string $from_userhost コピー元のuser@host */
+        private $from_userhost = null;
+        /* @var string $to_userhost コピー先のuser@host */
+        private $to_userhost = null;
 
 
         /**
@@ -89,6 +95,26 @@
         }
 
         /**
+         * コピー元のuser@hostを設定する。
+         *
+         * @param string $user
+         * @param string $host
+         */
+        public function from_userhost(string $user, string $host) {
+            $this->from_userhost = $user . "@" . $host . ":";
+        }
+
+        /**
+         * コピー先のuser@hostを設定する
+         *
+         * @param string $user
+         * @param string $host
+         */
+        public function to_userhost(string $user, string $host) {
+            $this->to_userhost = $user . "@" . $host . ":";
+        }
+
+        /**
          * オプションを一つ設定する
          *
          * @param string      $option
@@ -110,9 +136,40 @@
         }
 
         /**
+         * 証明書のパスを明示する
+         *
+         * @param string $path_of_cert
+         */
+        public function set_cert(string $path_of_cert) {
+            $this->set_ssh_option("i", $path_of_cert);
+        }
+
+        /**
+         * 標準以外のポートを使う
+         *
+         * @param int $port
+         */
+        public function set_port(int $port) {
+            $this->set_ssh_option("p", (string)$port);
+        }
+
+        /**
+         * SSHのオプションを設定する
+         *
+         * @param string      $option
+         * @param string|null $param
+         */
+        public function set_ssh_option(string $option, string $param = null) {
+            $this->ssh_options[] = new SSHOption($option, $param);
+        }
+
+        /**
+         * オプションを取得する
+         *
          * @return string
          */
         public function get_option(): string {
+            $this->set_option("e", SSHOption::combine($this->ssh_options));
             return RsyncOption::combine($this->options);
         }
 
@@ -124,8 +181,11 @@
             if ($this->from === null) {
                 throw new \BadMethodCallException("set from first.");
             }
-
-            return $this->from;
+            if ($this->from_userhost !== null) {
+                return $this->from_userhost . $this->from;
+            } else {
+                return $this->from;
+            }
         }
 
         /**
@@ -136,8 +196,11 @@
             if ($this->to === null) {
                 throw new \BadMethodCallException("set to first.");
             }
-
-            return $this->to;
+            if ($this->to_userhost !== null) {
+                return $this->to_userhost . $this->to;
+            } else {
+                return $this->to;
+            }
         }
 
         /**
