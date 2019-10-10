@@ -7,11 +7,6 @@
     namespace sudnonk\Rsync;
 
     class Rsync {
-
-        /* @var string $options オプション。aとかuとか */
-        protected $options = null;
-        /* @var bool $is_delete --deleteオプションを付けるか */
-        protected $is_delete = false;
         /* @var string $from コピー元 */
         protected $from = null;
         /* @var string $to コピー先 */
@@ -20,15 +15,18 @@
         protected $execCommand = null;
         protected $is_cli = false;
 
+        /** @var RsyncOption[] $options 選択されたオプション */
+        protected $options = [];
+
 
         /**
          * rsync constructor.
          *
-         * @param bool $is_cli CLIからの実行で、出力を標準出力に出したかったらtrue
+         * @param bool                      $is_cli CLIからの実行で、出力を標準出力に出したかったらtrue
          * @param ExecCommandInterface|null $execCommand
          * @throws \RuntimeException
          */
-        public function __construct(bool $is_cli = false,ExecCommandInterface $execCommand = null) {
+        public function __construct(bool $is_cli = false, ExecCommandInterface $execCommand = null) {
             clearstatcache();
 
             $this->is_cli = $is_cli;
@@ -82,7 +80,7 @@
             if (!file_exists($to) && !is_dir($to)) {
                 if (!mkdir($to)) {
                     throw new \RuntimeException("failed to mkdir.\n");
-                }elseif($this->is_cli){
+                } elseif ($this->is_cli) {
                     echo "create target dir.";
                 }
             }
@@ -93,21 +91,40 @@
          * オプションを設定する
          *
          * @param string $option
+         * @throws \InvalidArgumentException
          */
         public function set_option(string $option) {
-            $this->options .= $option;
+            $this->options[] = new RsyncOption($option);
+        }
+
+        /**
+         * @return string
+         */
+        public function get_option(): string {
+            return RsyncOption::combine($this->options);
         }
 
         /**
          * --deleteオプションを有効にする
          */
         public function enable_delete() {
-            $this->is_delete = true;
+            $this->options[] = new RsyncOption("delete");
         }
 
-        private function build_command(): string {
-            $delete = $this->is_delete ? " --delete" : "";
-            return "rsync " . $this->options . $delete . " " . $this->from . " " . $this->to;
+        /**
+         * rsyncコマンドをdry-runで実行する
+         */
+        public function enable_dry_run() {
+            $this->options[] = new RsyncOption("dry-run");
+        }
+
+        /**
+         * コマンドを組み立てる
+         *
+         * @return string
+         */
+        public function build_command(): string {
+            return "rsync " . $this->get_option() . $this->from . " " . $this->to;
         }
 
         /**
@@ -120,18 +137,8 @@
 
             if ($this->execCommand->execute($command) !== 0) {
                 throw new \RuntimeException("failed to exec rsync.\n");
-            }else{
+            } else {
                 echo "rsync success.";
             }
-        }
-
-        /**
-         * rsyncコマンドをdry-runで実行する
-         *
-         * @throws \RuntimeException
-         */
-        public function dry_run() {
-            $this->set_option("n");
-            $this->run();
         }
     }
