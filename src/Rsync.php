@@ -169,8 +169,14 @@
          * @return string
          */
         public function get_option(): string {
-            $this->set_option("e", SSHOption::combine($this->ssh_options));
-            return RsyncOption::combine($this->options);
+            if (count($this->ssh_options) > 0) {
+                $this->set_option("e", SSHOption::combine($this->ssh_options));
+            }
+            if (count($this->options) > 0) {
+                return RsyncOption::combine($this->options);
+            } else {
+                return "";
+            }
         }
 
         /**
