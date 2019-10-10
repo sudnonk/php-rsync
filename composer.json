@@ -1,6 +1,7 @@
 {
     "name": "sudnonk/php-rsync",
     "description": "Use rsync command from PHP.",
+    "homepage": "https://github.com/sudnonk/php-rsync",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -9,5 +10,13 @@
             "email": "sudnonk12@yahoo.co.jp"
         }
     ],
-    "require": {}
+    "minimum-stability": "stable",
+    "require": {
+        "PHP": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "sudnonk\\Rsync\\": "src/"
+        }
+    }
 }
