@@ -1,4 +1,6 @@
 # php-rsync
+[![Build Status](https://travis-ci.org/sudnonk/php-rsync.svg?branch=master)](https://travis-ci.org/sudnonk/php-rsync)
+
 phpでrsyncを便利に使えるようにするクラスです。
 
 ## prerequisite 前提
