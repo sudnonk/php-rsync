@@ -117,6 +117,30 @@
         }
 
         /**
+         * @return string
+         * @throws \BadMethodCallException
+         */
+        public function get_from(): string {
+            if ($this->from === null) {
+                throw new \BadMethodCallException("set from first.");
+            }
+
+            return $this->from;
+        }
+
+        /**
+         * @return string
+         * @throws \BadMethodCallException
+         */
+        public function get_to(): string {
+            if ($this->to === null) {
+                throw new \BadMethodCallException("set to first.");
+            }
+
+            return $this->to;
+        }
+
+        /**
          * --deleteオプションを有効にする
          */
         public function enable_delete() {
@@ -134,15 +158,17 @@
          * コマンドを組み立てる
          *
          * @return string
+         * @throws \BadMethodCallException
          */
         public function build_command(): string {
-            return "rsync " . $this->get_option() . $this->from . " " . $this->to;
+            return "rsync " . $this->get_option() . $this->get_from() . " " . $this->get_to();
         }
 
         /**
          * rsyncコマンドを実行する
          *
          * @throws \RuntimeException rsyncコマンドに失敗した場合
+         * @throws \BadMethodCallException
          */
         public function run() {
             $command = $this->build_command();

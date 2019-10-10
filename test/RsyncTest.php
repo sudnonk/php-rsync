@@ -35,6 +35,17 @@
          * @test
          * @depends インスタンス化できる
          */
+        public function BadMethodCallExceptionになる() {
+            $rsync = new Rsync(true, $this->exec);
+
+            $this->expectException(\BadMethodCallException::class);
+            $rsync->build_command();
+        }
+
+        /**
+         * @test
+         * @depends インスタンス化できる
+         */
         public function コマンドが組み立てられる() {
             $rsync = new Rsync(true, $this->exec);
             $rsync->from_file(__FILE__);
@@ -79,11 +90,11 @@
          * @test
          * @depends インスタンス化できる
          */
-        public function 引数付きのオブションが付く(){
+        public function 引数付きのオブションが付く() {
             $rsync = new Rsync(true, $this->exec);
             $rsync->from_file(__FILE__);
             $rsync->to(__DIR__);
-            $rsync->set_option("e","ssh");
+            $rsync->set_option("e", "ssh");
 
             $command = $rsync->build_command();
             $expect = "rsync -e ssh " . __FILE__ . " " . __DIR__;
@@ -118,7 +129,7 @@
             $rsync->enable_dry_run();
             $rsync->enable_delete();
             $rsync->set_options("a", "c", "v", "stats");
-            $rsync->set_option("e","'ssh'");
+            $rsync->set_option("e", "'ssh'");
 
             $command = $rsync->build_command();
             $expect = "rsync --dry-run --delete -a -c -v --stats -e 'ssh' " . __FILE__ . " " . __DIR__;
@@ -143,7 +154,7 @@
          * @test
          * @depends インスタンス化できる
          */
-        public function 変なオプション(){
+        public function 変なオプション() {
             $rsync = new Rsync(true, $this->exec);
             $this->expectException(\InvalidArgumentException::class);
             $rsync->set_option("popopo");
